@@ -1,0 +1,56 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <conio.h>
+#pragma warning(disable:4996)；
+// argc: 统计运行程序时命令行参数的个数
+// *argv[]: 储存每个参数的字符串指针，每一个元素对应一个参数
+int main(int argc, char *argv[])
+{
+	int ch,i=0,a=0, bian = 0, count1=0,count2=0;
+	char  temp[1000];
+	FILE *pt;    //文件指针
+	// 判断是否输入文件
+	if (argc != 3) {
+		printf("请使用格式: %s 文件名", argv[0]);
+		exit(1);    //非正常退出
+	}
+	// 判断能否成功打开文件
+	if ((pt = fopen(argv[2], "r")) == NULL) {  //将argv[1]赋值给指针pt
+		printf("打开文件 %s 失败", argv[2]);
+		exit(1);
+	}
+	while ((ch = getc(pt)) != EOF) //EOF 表示文件结束
+	{
+		temp[i] = ch;
+		i++;
+	}
+	a = i;
+	for(i=0;i<a;i++)
+	{
+		int x = temp[i];
+		if((x==' ')||(x=='\t')||(x=='\n'))
+		{
+			count2++;
+		}
+		else
+		{
+			count1++;
+			while ((x != ' ')&&(x != '\t') && (x != '\n')&&(x!='\0'))
+			{
+				i++;
+				x = temp[i];
+			}
+		}
+	}
+	if (argv[1]=="-c")
+	{
+		printf("共在文件%s中查找到单词 %d 个\n", argv[2], count1);
+	}
+	if (argv[1] == "-w")
+	{
+		printf("共在文件%s中查找到字符 %d 个\n", argv[2], count2);
+	}
+	getch();
+	return 0;
+}20:21 2020/5/20
